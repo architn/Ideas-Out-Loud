@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 10, 2022, 8:05:40 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.app.POJOs.Tweets" table="TWEETS">
+        <id name="tweetID" type="java.lang.Long">
+            <column name="tweetid" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="user" class="com.app.POJOs.Users" fetch="join">
+            <column name="userid" />
+        </many-to-one>
+        <property name="tweetBody" type="java.lang.String">
+            <column name="body" />
+        </property>
+        <property name="dateOfTweet" type="java.util.Date">
+            <column name="dateoftweet" />
+        </property>
+        <property name="isTweetOffensive" type="boolean" access="field">
+            <column name="istweetoffensive" />
+        </property>
+    </class>
+</hibernate-mapping>
