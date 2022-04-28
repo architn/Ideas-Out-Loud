@@ -29,9 +29,11 @@ public class UserDAO extends DAO {
         return user;
     }
 
-    public List<Users> getTenUsers(){
+    public List<Users> getTenUsers(long loggedInUser){
         Session session = getSession();
-        Query q = session.createQuery("from Users ").setMaxResults(10);
+        Query q = session.createQuery("from Users where id!="+loggedInUser+" and isUserAdministrator!="+true+"" +
+                " and isAccountSuspended!=true").setMaxResults(10);
+
         List<Users> listOfTenUsers =  q.list();
         return listOfTenUsers;
     }

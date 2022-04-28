@@ -48,15 +48,21 @@ public class UserProfileController {
         String username = request.getParameter("username");
         Users profileOfSomeUser = userDAO.getUserByUsername(username);
         HttpSession session = request.getSession();
-        Long userid = profileOfSomeUser.getId();
-        List<Tweets> tweetsForSomeUser = tweetDAO.getAllTweetsForAUser(userid);
+        Long useridOfCurrentProfile = profileOfSomeUser.getId();
+        List<Tweets> tweetsForSomeUser = tweetDAO.getAllTweetsForAUser(useridOfCurrentProfile);
 
-        long numberOfFollowersOfLoggedInUser = userFollowerDAO.getNumberOfFollowersOfUser(userid);
-        long numberOfFollowingOfLoggedInUser = userFollowerDAO.getNumberOfFollowingOfUser(userid);
-        long numberOfTweetsOfLoggedInUser = tweetDAO.getNumberOfTweetsForAUser(userid);
+        long numberOfFollowersOfLoggedInUser = userFollowerDAO.getNumberOfFollowersOfUser(useridOfCurrentProfile);
+        long numberOfFollowingOfLoggedInUser = userFollowerDAO.getNumberOfFollowingOfUser(useridOfCurrentProfile);
+        long numberOfTweetsOfLoggedInUser = tweetDAO.getNumberOfTweetsForAUser(useridOfCurrentProfile);
         profileOfSomeUser.setNumberOfFollowers(numberOfFollowersOfLoggedInUser);
         profileOfSomeUser.setNumberOfFollowing(numberOfFollowingOfLoggedInUser);
         profileOfSomeUser.setNumberOfTweets(numberOfTweetsOfLoggedInUser);
+        long userIDOfLoggedInUser = (Long) session.getAttribute("userid");
+        boolean doesLoggedInUserFollowTheUser = userFollowerDAO.doesLoggedInUserFollowThisAccount(userIDOfLoggedInUser, useridOfCurrentProfile);
+        boolean doesProfileUserFollowLoggedInUser = userFollowerDAO.doesProfileUserFollowLoggedInUser(userIDOfLoggedInUser, useridOfCurrentProfile);
+
+        request.setAttribute("doesLoggedInUserFollowTheUser", doesLoggedInUserFollowTheUser);
+        request.setAttribute("doesProfileUserFollowLoggedInUser", doesProfileUserFollowLoggedInUser);
 
         session.setAttribute("user", profileOfSomeUser);
         return new ModelAndView("profile", "tweets", tweetsForSomeUser);

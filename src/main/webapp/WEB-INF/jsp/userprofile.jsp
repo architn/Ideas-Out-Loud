@@ -154,13 +154,10 @@
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
 					   <p>
 					   	<span class="like">
-					   	<c:out value="${tweet.getNumberOfLikes()}" />&nbsp;
 					   	<a href="/Twitter/editTweet?id=${tweet.getTweetID()}">
 					   	<img class="editBtn" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" />
 					   	</a>
-					   	
-					   	<button class="btn btn-link"><img class="favBtn" src="https://www.pikpng.com/pngl/b/166-1669725_heart-emoji-symbol-emoticon-red-twitter-like-icon.png" /></button>
-					   		
+
 					   	</span>
 					   </p>
 					 <br>

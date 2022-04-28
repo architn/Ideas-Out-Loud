@@ -29,4 +29,49 @@ public class UserFollowerDAO extends DAO {
         return numberOfFFollowing;
     }
 
+    public boolean doesLoggedInUserFollowThisAccount(long idOfLoggedInUser, long idOfFellowUser){
+        Session session = getSession();
+        SQLQuery query = session.createSQLQuery("select count(*) from user_followers where followerid ="+idOfLoggedInUser+
+                " and userid="+idOfFellowUser);
+        BigInteger countOfSuchAConditionB = (BigInteger) query.uniqueResult();
+        long countOfSuchACondition = countOfSuchAConditionB.longValue();
+        if(countOfSuchACondition == 0){
+                return false;
+        }
+        return true;
+    }
+
+    public boolean doesProfileUserFollowLoggedInUser(long idOfLoggedInUser, long idOfFellowUser){
+        Session session = getSession();
+        SQLQuery query = session.createSQLQuery("select count(*) from user_followers where userid ="+idOfLoggedInUser+
+                " and followerid="+idOfFellowUser);
+        BigInteger countOfSuchAConditionB = (BigInteger) query.uniqueResult();
+        long countOfSuchACondition = countOfSuchAConditionB.longValue();
+        if(countOfSuchACondition == 0){
+            return false;
+        }
+        return true;
+    }
+
+    public void followAUser(long loggedInUser, long idOfProspectiveFollow){
+        Session session = getSession();
+        SQLQuery query = session.createSQLQuery("INSERT INTO user_followers(userid, followerid) VALUES(?, ?)");
+        session.beginTransaction();
+        query.setParameter(1, loggedInUser);
+        query.setParameter(2, idOfProspectiveFollow);
+        query.executeUpdate();
+        session.getTransaction().commit();
+    }
+
+    public void unFollowAUser(long loggedInUser, long idOfProspectiveUnfollow){
+        Session session = getSession();
+        session.beginTransaction();
+
+        SQLQuery query = session.createSQLQuery("DELETE from user_followers where userid="+loggedInUser+" and followerid="
+                +idOfProspectiveUnfollow+"");
+        query.executeUpdate();
+        session.getTransaction().commit();
+
+    }
+
 }

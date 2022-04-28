@@ -31,7 +31,7 @@
 		height: 70px;
 		float: left;
 	}
-	#userFullName{
+	#userFullNameO{
 		font-size: 130%
 	}
 	
@@ -59,6 +59,10 @@
 	#verifiedTick{
 		width: 20px;
 	}
+
+	#verifiedTick1{
+		width: 20px;
+	}
 	
 	.like{
 		float: right;
@@ -82,6 +86,27 @@
 		font-size: 120%;
 		text-align: center;
 		font-weight: bold;
+	}
+
+	#actionsButtonF{
+		float: right;
+	}
+
+	#actionsButtonU{
+		float: right;
+	}
+
+	#followText{
+		font-size: 60%;
+		border: 1px solid gray;
+		font-weight: bold
+	}
+
+	#flagIcon{
+		width: 50px;
+	}
+	.offensive{
+		float: right;
 	}
 	
 </style>
@@ -129,9 +154,27 @@
 					</div>
 			</div>
 			<p id="userFullName"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
-			  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
-			
+			  	<img id="verifiedTick1" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+				<c:set value="${requestScope.doesLoggedInUserFollowTheUser}" var="doesLoggedInUserFollowTheUser" />
+				<c:if test="${doesLoggedInUserFollowTheUser == true}">
+					<span id="followText">FOLLOWS YOU</span>
+				</c:if>
+
 			</p>
+			<c:if test="${doesProfileUserFollowLoggedInUser == true}">
+				<form action="unfollow" method="POST">
+					<button type="submit" id="actionsButtonU" class="btn btn-primary">UNFOLLOW</button>
+					<input type="hidden" name="loggedInUser" value="${sessionScope.userid}" />
+					<input type="hidden" name="profileOfUser" value="${user.getId()}" />
+				</form>
+			</c:if>
+			<c:if test="${doesProfileUserFollowLoggedInUser == false}">
+				<form action="follow" method="POST">
+					<button type="submit" id="actionsButtonF" class="btn btn-primary">FOLLOW</button>
+					<input type="hidden" name="loggedInUser" value="${sessionScope.userid}" />
+					<input type="hidden" name="profileOfUser" value="${user.getId()}" />
+				</form>
+			</c:if>
 			@<span  id="username"><c:out value="${user.getUsername()}" />
 			
 			<span id="bio"><c:out value="${user.getBio()}"/></span>
@@ -146,13 +189,17 @@
 		  			</div>
 		  			<div class="col-10">
 		  			<span>
-					  	<span id="userFullName"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
+					  	<span id="userFullNameO"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
 					  	</span>
 					  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
 					  	<span>@<c:out value="${user.getUsername()}" /></span>
 					  </span>
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
-					   
+						<span class="offensive">
+							<a class="btn btn-light">
+							<img id="flagIcon" src="https://www.creativefabrica.com/wp-content/uploads/2019/03/Icon-flag-vector-by-rohmahrohmat1-580x386.jpg" />
+						</a>
+						</span>
 					 <br>
 		  			</div>
 		  		</div>

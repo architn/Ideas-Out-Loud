@@ -23,7 +23,7 @@ public class TweetsDAO extends DAO{
 
     public List<Tweets> getAllTweetsForAUser(long userID){
         Session session = getSession();
-        Query q = session.createQuery("from Tweets where id="+userID);
+        Query q = session.createQuery("from Tweets where userid="+userID);
         List<Tweets> tweets = q.list();
         return tweets;
     }
@@ -76,7 +76,7 @@ public class TweetsDAO extends DAO{
 
     public long getNumberOfTweetsForAUser(long userID) {
         Session session = getSession();
-        Query q = session.createQuery("select count(t) from Tweets t where id="+userID);
+        Query q = session.createQuery("select count(t) from Tweets t where userid="+userID);
         long numberOfTweets = (Long) q.uniqueResult();
         return numberOfTweets;
     }

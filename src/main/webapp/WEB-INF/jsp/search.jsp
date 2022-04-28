@@ -13,6 +13,9 @@
 	.container{
 		padding: 80px;
 	}
+	body{
+		background-image: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8")
+	}
 	#displaypic{
 		width: 150px;
 		height: 150px;
@@ -56,8 +59,6 @@
 						<br><br>
 						<p id="fullname"><c:out value="${recusers.getFirstName()}" />&nbsp;<c:out value="${recusers.getLastName()}" /></p>
 						<span id="username"><a href="/Twitter/user?username=${recusers.getUsername()}">@<c:out value="${recusers.getUsername()}" /></a></span>
-						<br><br>
-						<button id="btnFollow" class="btn btn-primary">FOLLOW</button>
 						<br><br>
 					</div>
 				</div>
