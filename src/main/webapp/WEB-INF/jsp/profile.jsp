@@ -191,12 +191,14 @@
 		  			<span>
 					  	<span id="userFullNameO"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
 					  	</span>
-					  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
-					  	<span>@<c:out value="${user.getUsername()}" /></span>
+					 <c:if test="${user.isUserVerified() == true}">
+						 <img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+					 </c:if>
+						<span>@<c:out value="${user.getUsername()}" /></span>
 					  </span>
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
 						<span class="offensive">
-							<a class="btn btn-light">
+							<a class="btn btn-light" href="/Twitter/offensive?id=${tweet.getTweetID()}">
 							<img id="flagIcon" src="https://www.creativefabrica.com/wp-content/uploads/2019/03/Icon-flag-vector-by-rohmahrohmat1-580x386.jpg" />
 						</a>
 						</span>

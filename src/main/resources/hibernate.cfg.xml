@@ -12,5 +12,7 @@
     <property name="show_sql">true</property>
     <mapping resource="Users.hbm.xml"/>
     <mapping resource="Tweets.hbm.xml"/>
+    <mapping resource="OffensiveTweets.hbm.xml"/>
+
   </session-factory>
 </hibernate-configuration>

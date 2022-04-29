@@ -107,7 +107,9 @@
 				  <div id="tweetsLine" class="col-10">
 					  <span>
 					  	<span id="userFullName"><c:out value="${tweet.getUserFullName()}" /></span>
-					  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+						  <c:if test="${tweet.isUserVerified() == true}">
+							  <img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+						  </c:if>
 					  	<span>@<c:out value="${tweet.getUsername()}" /></span>
 					  </span>
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>

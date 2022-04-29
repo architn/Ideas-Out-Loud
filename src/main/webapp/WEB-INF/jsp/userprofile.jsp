@@ -118,12 +118,16 @@
 							<div class="col-4">
 							<br><br>
 								<p class="headline">FOLLOWERS</p>
-								<p class="numberCount"><c:out value="${user.getNumberOfFollowers()}" /></p>
+								<p class="numberCount">
+									<c:out value="${user.getNumberOfFollowers()}" />
+								</p>
 							</div>
 							<div class="col-4">
 							<br><br>
 								<p class="headline">FOLLOWING</p>
-								<p class="numberCount"><c:out value="${user.getNumberOfFollowing()}" /></p>
+								<p class="numberCount">
+									<c:out value="${user.getNumberOfFollowing()}" />
+								</p>
 							</div>
 						</div>
 					</div>
@@ -148,8 +152,10 @@
 		  			<span>
 					  	<span id="userFullName"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
 					  	</span>
-					  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
-					  	<span>@<c:out value="${user.getUsername()}" /></span>
+						<c:if test="${user.isUserVerified() == true}">
+							<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+						</c:if>
+						<span>@<c:out value="${user.getUsername()}" /></span>
 					  </span>
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
 					   <p>

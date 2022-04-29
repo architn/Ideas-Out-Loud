@@ -6,7 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.app.DAO.OffensiveTweetsDAO;
+import com.app.POJOs.OffensiveTweets;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -98,5 +101,26 @@ public class TweetController {
         }
         return new ModelAndView("userprofile");
     }
-}
+
+    @RequestMapping(value="/offensive", method=RequestMethod.GET)
+    public ModelAndView getOffensiveTweetForm(HttpServletRequest request, TweetsDAO tweetDAO, UserDAO userDAO) {
+        long tweetID = Long.parseLong(request.getParameter("id"));
+        Tweets tweet = tweetDAO.getTweetByTweetID(tweetID);
+        Users user = tweet.getUser();
+        request.setAttribute("user", user);
+        return new ModelAndView("offensive", "tweet", tweet);
+        }
+    @RequestMapping(value="/offensive", method=RequestMethod.POST)
+    public ModelAndView postOffensiveTweetForm(HttpServletRequest request, TweetsDAO tweetDAO, UserDAO userDAO,
+                                               OffensiveTweetsDAO offensiveTweetsDAO, OffensiveTweets offensiveTweet) {
+        long tweetID = Long.parseLong(request.getParameter("id"));
+        String reasonForOffensiveTweet = request.getParameter("reason");
+        Tweets tweet = tweetDAO.getTweetByTweetID(tweetID);
+        offensiveTweet.setTweetID(tweet);
+        offensiveTweet.setReason(reasonForOffensiveTweet);
+        offensiveTweetsDAO.insertTweetInOffensiveTweet(offensiveTweet);
+//        request.setAttribute("user", user);
+        return new ModelAndView("offensive", "tweet", tweet);
+    }
+    }
 

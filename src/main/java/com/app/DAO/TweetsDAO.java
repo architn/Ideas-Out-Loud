@@ -23,7 +23,7 @@ public class TweetsDAO extends DAO{
 
     public List<Tweets> getAllTweetsForAUser(long userID){
         Session session = getSession();
-        Query q = session.createQuery("from Tweets where userid="+userID);
+        Query q = session.createQuery("from Tweets where user="+userID);
         List<Tweets> tweets = q.list();
         return tweets;
     }
@@ -33,7 +33,7 @@ public class TweetsDAO extends DAO{
         Session session = getSession();
         String queryForUserRetrieval = "select distinct us.username, us.firstname, us.lastname, us.profilepic,"
                 + " tw.body, tw.dateoftweet,"
-                + " tw.numberOfLikes, tw.tweetid\n" +
+                + " tw.numberOfLikes, tw.tweetid, us.isuserverified\n" +
                 "from users us join user_followers uf\n" +
                 "on us.userid = uf.followerid\n" +
                 "inner join tweets tw\n" +
@@ -52,6 +52,7 @@ public class TweetsDAO extends DAO{
             String tweetbody = (String) followingTweet[4];
             Date dateOfTweet = (Date) followingTweet[5];
             int numberOfLikes = (Integer) followingTweet[6];
+            boolean isUserVerified = (Boolean) followingTweet[8];
 
             tweet.setUsername(username);
             tweet.setUserProfilePic(profilepiclink);
@@ -59,6 +60,7 @@ public class TweetsDAO extends DAO{
             tweet.setTweetBody(tweetbody);
             tweet.setDateOfTweets(dateOfTweet);
             tweet.setNumberOfLikes(numberOfLikes);
+            tweet.setUserVerified(isUserVerified);
             listOfTweetsOfFollowing.add(tweet);
         }
 
@@ -76,7 +78,7 @@ public class TweetsDAO extends DAO{
 
     public long getNumberOfTweetsForAUser(long userID) {
         Session session = getSession();
-        Query q = session.createQuery("select count(t) from Tweets t where userid="+userID);
+        Query q = session.createQuery("select count(t) from Tweets t where user="+userID);
         long numberOfTweets = (Long) q.uniqueResult();
         return numberOfTweets;
     }

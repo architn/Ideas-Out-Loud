@@ -2,16 +2,15 @@ package com.app.POJOs;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Tweets {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long tweetID;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private Users user;
     private String tweetBody;
     private int numberOfLikes;

@@ -38,11 +38,24 @@ public class UserDAO extends DAO {
         return listOfTenUsers;
     }
 
+    public List<Users> getAllUsers(){
+        Session session = getSession();
+        Query q = session.createQuery("from Users where isUserAdministrator!=true");
+        List<Users> listOfTenUsers =  q.list();
+        return listOfTenUsers;
+    }
+
     public Users getUserByUsername(String username) {
         Session session = getSession();
         Query q = session.createQuery("from Users where username='"+username+"'");
         Users user = (Users) q.uniqueResult();
         return user;
+    }
+
+    public void updateUser(Users user){
+        begin(); // Marks the beginning of the transaction
+        getSession().update(user);
+        commit(); // Commit this transaction
     }
 }
 

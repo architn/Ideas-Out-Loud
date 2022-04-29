@@ -12,6 +12,7 @@ public class DisplayedTweet {
     private Date dateOfTweets;
     private String tweetBody;
     private int numberOfLikes;
+    private boolean isUserVerified;
     public String getUserProfilePic() {
         return userProfilePic;
     }
@@ -49,5 +50,11 @@ public class DisplayedTweet {
         this.numberOfLikes = numberOfLikes;
     }
 
+    public boolean isUserVerified() {
+        return isUserVerified;
+    }
 
+    public void setUserVerified(boolean userVerified) {
+        isUserVerified = userVerified;
+    }
 }
