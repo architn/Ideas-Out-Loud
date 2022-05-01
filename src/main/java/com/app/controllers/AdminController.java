@@ -50,6 +50,7 @@ public class AdminController {
     {
         String username = request.getParameter("username");
         String suspensionAction = request.getParameter("action");
+        System.out.println(suspensionAction);
         Users user = userDAO.getUserByUsername(username);
         user.setId(user.getId());
         user.setUsername(username);
@@ -101,6 +102,6 @@ public class AdminController {
         }
 
         userDAO.updateUser(user);
-        return new ModelAndView("login", "user", user);
+        return new ModelAndView("useractions", "user", user);
     }
 }

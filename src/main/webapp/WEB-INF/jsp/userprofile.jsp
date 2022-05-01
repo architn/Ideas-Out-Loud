@@ -133,8 +133,9 @@
 					</div>
 			</div>
 			<p id="userFullName"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
-			  	<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
-			
+				<c:if test="${user.isUserVerified() == true}">
+					<img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+				</c:if>
 			</p>
 			@<span  id="username"><c:out value="${user.getUsername()}" />
 			

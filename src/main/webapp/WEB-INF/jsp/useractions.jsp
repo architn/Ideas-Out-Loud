@@ -45,11 +45,11 @@
                             <input type="hidden" name="username" value="${user.getUsername()}"/>
                         <c:if test="${user.isAccountSuspended() == true}">
                             <button type="submit" class="btn btn-danger">Unlock User</button>
-                            <input type="hidden" name="action" value="suspend" />
+                            <input type="hidden" name="action" value="unlock" />
                         </c:if>
                         <c:if test="${user.isAccountSuspended() == false}">
                                 <button type="submit" class="btn btn-danger">Suspend User</button>
-                            <input type="hidden" name="action" value="unlock" />
+                            <input type="hidden" name="action" value="suspend" />
 
                         </c:if>
                         </form>
