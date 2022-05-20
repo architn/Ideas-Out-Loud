@@ -28,4 +28,10 @@ public class OffensiveTweetsDAO extends DAO{
         List<OffensiveTweets> tweets =  q.list();
         return tweets;
     }
+    
+    public void deleteTweetFromOffensiveTable(long tweetID) {
+    	Session session = getSession();
+        Query q = session.createQuery("from OffensiveTweets where tweetID="+tweetID);
+        Tweets tweets = (Tweets) q.uniqueResult();
+    }
 }

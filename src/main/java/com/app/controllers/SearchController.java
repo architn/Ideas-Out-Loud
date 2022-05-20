@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +20,27 @@ import com.app.DAO.UserFollowerDAO;
 public class SearchController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView returnProfilePage(HttpServletRequest request, UserDAO userDAO,
-                                          UserFollowerDAO userFollowerDAO, TweetsDAO tweetDAO)
+    public ModelAndView returnProfilePage(HttpServletRequest request, UserDAO userDAO)
     {
         HttpSession session = request.getSession();
+        List<Users> searchedUsers = new ArrayList<>();
         long loggedInUserID = (Long) session.getAttribute("userid");
         List<Users> listOfTopTenRecommendedUsers = userDAO.getTenUsers(loggedInUserID);
         request.setAttribute("recommendedusers", listOfTopTenRecommendedUsers);
+        request.setAttribute("searchedUsers", searchedUsers);
+        return new ModelAndView("search");
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView returnSearchResults(HttpServletRequest request, UserDAO userDAO)
+    {
+        HttpSession session = request.getSession();
+        String searchParameter = request.getParameter("searchParameter");
+        List<Users> searchedUsers = userDAO.returnUserSearchResults(searchParameter);
+        long loggedInUserID = (Long) session.getAttribute("userid");
+        List<Users> listOfTopTenRecommendedUsers = userDAO.getTenUsers(loggedInUserID);
+        request.setAttribute("recommendedusers", listOfTopTenRecommendedUsers);
+        request.setAttribute("searchedUsers", searchedUsers);
         return new ModelAndView("search");
     }
 }

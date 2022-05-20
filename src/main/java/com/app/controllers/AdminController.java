@@ -6,6 +6,9 @@ import com.app.DAO.UserDAO;
 import com.app.POJOs.OffensiveTweets;
 import com.app.POJOs.Tweets;
 import com.app.POJOs.Users;
+import com.app.services.EmailService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,20 +20,31 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+	
 
     @RequestMapping(value = "/manageTweets", method = RequestMethod.GET)
     public ModelAndView returnTweetsManagementPage(HttpServletRequest request, OffensiveTweetsDAO offensiveTweetsDAO,
                                                    TweetsDAO tweetDAO)
     {
-        List<OffensiveTweets> listOfOffensiveTweets = offensiveTweetsDAO.getAllUnresolvedTweets();
-        List<Tweets> tweets = new ArrayList<>();
+        List<Tweets> tweets = tweetDAO.getAllOffensiveTweetsForAdministrator();
 
-        for(OffensiveTweets tw: listOfOffensiveTweets){
-            tweets.add(tw.getTweetID());
-        }
+       
         request.setAttribute("tweets", tweets);
-        return new ModelAndView("managetweets", "offensiveTweets", listOfOffensiveTweets);
+        return new ModelAndView("managetweets","tweets", tweets);
     }
+    
+    @RequestMapping(value = "/tweetDetails", method = RequestMethod.GET)
+    public ModelAndView returnOffensivetTweetInfo(HttpServletRequest request, OffensiveTweetsDAO offensiveTweetsDAO,
+                                                   TweetsDAO tweetDAO)
+    {
+    	long ID = Long.parseLong(request.getParameter("id"));
+    	OffensiveTweets tweetDetail = offensiveTweetsDAO.getOffensiveTweetByTweetID(ID);
+    	Tweets tweet = tweetDAO.getTweetByTweetID(ID);
+        request.setAttribute("reason", tweetDetail.getReason());
+        return new ModelAndView("flaggedTweets","tweets", tweet);
+    }
+    
+    
 
     @RequestMapping(value = "/manageUsers", method = RequestMethod.GET)
     public ModelAndView returnUserDisplayPage(HttpServletRequest request, UserDAO userDAO)
@@ -50,7 +64,6 @@ public class AdminController {
     {
         String username = request.getParameter("username");
         String suspensionAction = request.getParameter("action");
-        System.out.println(suspensionAction);
         Users user = userDAO.getUserByUsername(username);
         user.setId(user.getId());
         user.setUsername(username);
@@ -73,10 +86,10 @@ public class AdminController {
         }
 
         userDAO.updateUser(user);
-        return new ModelAndView("useractions", "user", user);
+        return new ModelAndView("redirect:manageUsers", "user", user);
     }
     @RequestMapping(value = "/verifiedAccount", method = RequestMethod.POST)
-    public ModelAndView makeUserAVerifiedAccount(HttpServletRequest request, UserDAO userDAO)
+    public ModelAndView makeUserAVerifiedAccount(HttpServletRequest request, UserDAO userDAO, EmailService emailService)
     {
         String username = request.getParameter("username");
         String verificationAction = request.getParameter("verification");
@@ -102,6 +115,14 @@ public class AdminController {
         }
 
         userDAO.updateUser(user);
-        return new ModelAndView("useractions", "user", user);
+        try {
+        	emailService.SendEmailOfAccountVerification("archit.nigam711@gmail.com", username);
+        }
+        catch(Exception ex) {
+            return new ModelAndView("redirect:manageUsers", "user", user);
+        }
+        return new ModelAndView("redirect:manageUsers", "user", user);
     }
+    
+    
 }

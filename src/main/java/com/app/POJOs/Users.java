@@ -1,13 +1,12 @@
 package com.app.POJOs;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @Entity
@@ -29,6 +28,13 @@ public class Users {
     private long numberOfFollowers;
     private long numberOfTweets;
     private long numberOfFollowing;
+    @Transient
+    private MultipartFile picture;
+    @OneToMany
+    private List<Users> followers;
+    @OneToMany
+    private List<Users> following;
+
 
     public Long getId() {
         return id;
@@ -143,4 +149,28 @@ public class Users {
         this.numberOfTweets = numberOfTweets;
     }
 
+    public List<Users> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<Users> followers) {
+        this.followers = followers;
+    }
+
+    public List<Users> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<Users> following) {
+        this.following = following;
+    }
+
+	public MultipartFile getPicture() {
+		return picture;
+	}
+
+	public void setPicture(MultipartFile picture) {
+		this.picture = picture;
+	}
+    
 }

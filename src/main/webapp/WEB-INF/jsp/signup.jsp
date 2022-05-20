@@ -24,14 +24,15 @@
 
 		<div id="signUpSection" class="container">
 		<h2>Welcome to Twitter!</h2>
-		<img id="twitterLogo" class="rounded-circle" src="https://static01.nyt.com/images/2014/08/10/magazine/10wmt/10wmt-superJumbo-v4.jpg" />
-		<form class="form-group" action="signup" method="POST">
-			<input type="text" class="form-control" placeholder="Enter username" id="txtUsername" name="txtUsername"/>
-			<input type="text" class="form-control" placeholder="Enter password" id="txtPassword" name="txtPassword"/>
-			<input type="text" class="form-control" placeholder="Confirm Password" id="txtConfirmPassword" name="txtConfirmPassword"/>
+		<img id="twitterLogo"  class="rounded-circle" src="https://static01.nyt.com/images/2014/08/10/magazine/10wmt/10wmt-superJumbo-v4.jpg" />
+		<form class="form-group" action="signup" method="POST" enctype="multipart/form-data">
 			<input type="text" class="form-control" placeholder="Enter First Name" id="txtFirstName" name="txtFirstName"/>
 			<input type="text" class="form-control" placeholder="Enter Last Name" id="txtLastName" name="txtLastName"/>
-			<input type="date" class="form-control" placeholder="Enter Date of Birth" id="txtDOB" name="txtDOB"/>
+			<input type="text" class="form-control" placeholder="Enter username" id="txtUsername" name="txtUsername"/>
+			<input type="password" class="form-control" placeholder="Enter password" id="txtPassword" name="txtPassword"/>
+			<input type="password" class="form-control" placeholder="Confirm Password" id="txtConfirmPassword" name="txtConfirmPassword"/>
+			<textarea name="bio" cols = "50" class="form-control" placeholder = "Write something about yourself"></textarea>
+			<input type = "date" name="txtDOB" class="form-control"/>
 			<button type="submit" class="btn btn-primary">Create Account</button>
 		</form>
 		</div>

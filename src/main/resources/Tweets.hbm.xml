@@ -20,5 +20,8 @@
         <property name="isTweetOffensive" type="boolean" access="field">
             <column name="istweetoffensive" />
         </property>
+         <property name="hasTweetBeenEdited" type="boolean" access="field">
+            <column name="hasTweetBeenEdited" />
+        </property>
     </class>
 </hibernate-mapping>

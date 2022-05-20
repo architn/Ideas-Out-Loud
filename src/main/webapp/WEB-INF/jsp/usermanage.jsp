@@ -23,6 +23,11 @@
             color: white;
             font-weight: bold;
         }
+
+        .nav-link{
+            color: #023178;
+            white-space:nowrap;
+        }
     </style>
 </head>
 <body>
@@ -30,11 +35,11 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <ul>
-                <li><a href="/Twitter/manageTweets">Manage Tweets</a></li>
-                <li><a href="/Twitter/manageUsers">Manage Users</a></li>
-                <li><a href='/Twitter/logout'>Logout</a></li>
-            </ul>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/Twitter/manageTweets">MANAGE TWEETS</a>
+                <a class="nav-link" href="/Twitter/manageUsers">MANAGE USERS</a>
+                <a class="nav-link" href='/Twitter/logout'>LOGOUT</a>
+            </nav>
         </div>
         <div class="col-7">
             <table class="table table-striped">
@@ -52,7 +57,6 @@
                     </td>
                     <td>
                         <c:out value="${user.getFirstName()}" />
-                        &nbsp;
                         <c:out value="${user.getLastName()}" />
                     </td>
                     <td>

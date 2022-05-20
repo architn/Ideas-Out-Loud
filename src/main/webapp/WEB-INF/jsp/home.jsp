@@ -9,79 +9,90 @@
 	body{
 		background-image: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8")
 	}
-	
+
 	.container{
 		padding: 50px;
 	}
 	#tweet{
 		border: 1px solid black;
 	}
-	
+
 	#profilePic{
 		width: 100px;
 		height: 100px;
 	}
-	
+
 	#tweetArea{
 		width: 600px;
 		height: 80px;
 	}
-	
+
 	#btnTweet{
 		float: right;
 		background-color: #4fc3f7;
 		border: 1px solid white;
 	}
-	
+
 	#dp{
 		width: 70px;
 		height: 70px;
 		float: left;
 	}
-	
+
 	#userFullName{
-		font-size: 130%
+		font-size: 130%;
+
 	}
-	
+
+	#userProfileLink{
+		text-decoration: none;
+		color: #023178;
+	}
+
 	#btnTweet{
 		width: 100px;
 	}
-	
+
 	.favBtn{
 		width: 30px;
 		float: right;
 	}
-	
+
 	#tweetsLine{
 		margin-left: 100px;
 	}
-	
+
 	#tweetBody{
 		font-size: 120%;
 	}
-	
+
 	#verifiedTick{
 		width: 20px;
 	}
-	
+
 	.like{
 		float: right;
 	}
-	
+
+	.nav-link{
+		color: #023178;
+		white-space:nowrap;
+	}
+
 	</style>
 </head>
 <body>
 	<div class='container'>
 		<div class='row'>
 			<div id='navigationBar' class='col-2'>
-				<ul>
-				<li><a href='/Twitter/home'>Home</a></li>
-				<li><a href='/Twitter/profile'>Profile</a></li>
-				<li><a href='/Twitter/search'>Search for a user</a></li>
-				<li><a href='/Twitter/logout'>Logout</a></li>
-				</ul>
+				<nav class="nav flex-column">
+					<a class="nav-link" href='/Twitter/home'>HOME</a>
+					<a class="nav-link" href='/Twitter/profile'>PROFILE</a>
+					<a class="nav-link" href='/Twitter/search'>SEARCH USERS</a>
+					<a class="nav-link" href='/Twitter/logout'>LOGOUT</a>
+				</nav>
 			</div>
-			
+
 		<div id='tweetsSection' class='col-8'>
 			<form class="form-group" action="tweet" method="POST">
 			<c:set value="${requestScope.profilepic}" var="profilepic" />
@@ -95,7 +106,7 @@
 			</div>
 				<button type="submit" id="btnTweet" class="btn btn-primary">TWEET</button>
 			</form>
-			
+
 			<br><br>
 			<c:forEach items="${requestScope.tweetsOnHomePage}" var="tweet">
 			<hr class="my-4">
@@ -106,26 +117,26 @@
 				  </div>
 				  <div id="tweetsLine" class="col-10">
 					  <span>
-					  	<span id="userFullName"><c:out value="${tweet.getUserFullName()}" /></span>
+					  	<span id="userFullName">
+								<a id="userProfileLink" href="/Twitter/user?username=${tweet.getUsername()}">
+									<c:out value="${tweet.getUserFullName()}" /></span>
+							</a>
 						  <c:if test="${tweet.isUserVerified() == true}">
 							  <img id="verifiedTick" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
 						  </c:if>
 					  	<span>@<c:out value="${tweet.getUsername()}" /></span>
 					  </span>
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
-					   <p>
-					   	<span class="like">
-					   	<c:out value="${tweet.getNumberOfLikes()}" />&nbsp;
-					   	<button class="btn btn-link"><img class="favBtn" src="https://www.pikpng.com/pngl/b/166-1669725_heart-emoji-symbol-emoticon-red-twitter-like-icon.png" /></button>
-					   	</span>
-					   </p>
+					   <c:if test="${tweet.isHasTweetBeenEdited() == true}">
+							 <p>Edited</p>
+						  </c:if>
 					 <br>
 				  </div>
 			  </div>
-				</div>			
+				</div>
 			</c:forEach>
 		</div>
-	</div>					
+	</div>
 	</div>
 </body>
 </html>

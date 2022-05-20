@@ -25,16 +25,22 @@ public class HomeController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView verifyAndReturnHomePage(HttpServletRequest request, LoginService loginService, TweetsDAO tweetDAO, UserDAO userDAO) {
         HttpSession session = request.getSession();
-        boolean isUserLoggedIn = (Boolean) session.getAttribute("isUserLoggedIn");
-        if(isUserLoggedIn) {
-            long loggedInUserID = (Long) session.getAttribute("userid");
-            List<DisplayedTweet> allTweetsOfUsersFollowing = tweetDAO.getAllTweetsFromAUsersFollowing(loggedInUserID);
-            request.setAttribute("tweetsOnHomePage", allTweetsOfUsersFollowing);
-            Users user = userDAO.getUserByUserID(loggedInUserID);
-            request.setAttribute("profilepic", user.getProfilepic());
+        try {
+        	boolean isUserLoggedIn = (Boolean) session.getAttribute("isUserLoggedIn");
+            if(isUserLoggedIn) {
+                long loggedInUserID = (Long) session.getAttribute("userid");
+                List<DisplayedTweet> allTweetsOfUsersFollowing = tweetDAO.getAllTweetsFromAUsersFollowing(loggedInUserID);
+                request.setAttribute("tweetsOnHomePage", allTweetsOfUsersFollowing);
+                Users user = userDAO.getUserByUserID(loggedInUserID);
+                request.setAttribute("profilepic", user.getProfilepic());
 
-            return new ModelAndView("home");
+                return new ModelAndView("home");
+            }
         }
+        catch(Exception ex) {
+            return new ModelAndView("login");
+        }
+        
         return new ModelAndView("login");
 
     }

@@ -13,6 +13,8 @@ public class DisplayedTweet {
     private String tweetBody;
     private int numberOfLikes;
     private boolean isUserVerified;
+    private boolean hasTweetBeenEdited;
+
     public String getUserProfilePic() {
         return userProfilePic;
     }
@@ -57,4 +59,12 @@ public class DisplayedTweet {
     public void setUserVerified(boolean userVerified) {
         isUserVerified = userVerified;
     }
+	public boolean isHasTweetBeenEdited() {
+		return hasTweetBeenEdited;
+	}
+	public void setHasTweetBeenEdited(boolean hasTweetBeenEdited) {
+		this.hasTweetBeenEdited = hasTweetBeenEdited;
+	}
+    
+    
 }

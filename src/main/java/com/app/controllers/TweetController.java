@@ -88,9 +88,9 @@ public class TweetController {
             String newTweetBody = request.getParameter("tweetBody");
             tweet.setTweetID(tweetId);
             tweet.setUser(user);
+            tweet.setHasTweetBeenEdited(true);
             tweet.setTweetBody(newTweetBody);
             tweet.setDateOfTweet(new Date());
-            System.out.println("Updating....");
             tweetDAO.postEditedTweet(tweet);
             List<Tweets> tweets = tweetDAO.getAllTweetsForAUser(userIDOfTweeter);
             return new ModelAndView("userprofile", "tweets", tweets);
@@ -99,7 +99,22 @@ public class TweetController {
         catch(Exception ex) {
             ex.printStackTrace();
         }
-        return new ModelAndView("userprofile");
+        return new ModelAndView("redirect:profile");
+    }
+
+    // Deleting a tweet
+    
+    @RequestMapping(value="/deleteTweet", method=RequestMethod.GET)
+    public ModelAndView deleteTweet(HttpServletRequest request, TweetsDAO tweetDAO, UserDAO userDAO)
+    {
+        long tweetID = Long.parseLong(request.getParameter("id")) ;
+        Tweets tweet = tweetDAO.getTweetByTweetID(tweetID);
+
+        HttpSession session = request.getSession();
+        long userID = (Long) session.getAttribute("userid");
+        Users user = userDAO.getUserByUserID(userID);
+        tweetDAO.deleteTweet(tweet);
+        return new ModelAndView("redirect:profile", "user", user);
     }
 
     @RequestMapping(value="/offensive", method=RequestMethod.GET)
@@ -109,18 +124,39 @@ public class TweetController {
         Users user = tweet.getUser();
         request.setAttribute("user", user);
         return new ModelAndView("offensive", "tweet", tweet);
-        }
+    }
+    
+    // Mark tweet as offensive
+    
     @RequestMapping(value="/offensive", method=RequestMethod.POST)
     public ModelAndView postOffensiveTweetForm(HttpServletRequest request, TweetsDAO tweetDAO, UserDAO userDAO,
                                                OffensiveTweetsDAO offensiveTweetsDAO, OffensiveTweets offensiveTweet) {
         long tweetID = Long.parseLong(request.getParameter("id"));
         String reasonForOffensiveTweet = request.getParameter("reason");
         Tweets tweet = tweetDAO.getTweetByTweetID(tweetID);
+        tweet.setTweetID(tweetID);
+        tweet.setTweetBody(tweet.getTweetBody());
+        tweet.setUser(tweet.getUser());
+        tweet.setTweetOffensive(true);
+        tweetDAO.postEditedTweet(tweet);
+        
         offensiveTweet.setTweetID(tweet);
         offensiveTweet.setReason(reasonForOffensiveTweet);
+        
         offensiveTweetsDAO.insertTweetInOffensiveTweet(offensiveTweet);
-//        request.setAttribute("user", user);
-        return new ModelAndView("offensive", "tweet", tweet);
+        return new ModelAndView("redirect:home", "tweet", tweet);
     }
-    }
+    
+    @RequestMapping(value="/adminDelete", method=RequestMethod.GET)
+    public ModelAndView deleteOffensiveTweet(HttpServletRequest request, TweetsDAO tweetDAO, UserDAO userDAO,
+            OffensiveTweetsDAO offensiveTweetsDAO, OffensiveTweets offensiveTweet) {
+			long tweetID = Long.parseLong(request.getParameter("id"));
+			Tweets tweet = tweetDAO.getTweetByTweetID(tweetID);
+			offensiveTweetsDAO.deleteTweetFromOffensiveTable(tweetID);
+			
+			tweetDAO.deleteTweet(tweet);
+			
+			return new ModelAndView("redirect:manageTweets");
+			}
+}
 

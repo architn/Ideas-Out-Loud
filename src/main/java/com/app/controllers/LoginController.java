@@ -19,14 +19,11 @@ import com.app.DAO.TweetsDAO;
 import com.app.DAO.UserDAO;
 import com.app.services.LoginService;
 
-
-
 @Controller
 public class LoginController {
     LoginCodes LOGINCODES = new LoginCodes();
 
     //@Autowired
-
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView returnLoginPage(HttpServletRequest request, LoginService loginService, TweetsDAO tweetDAO) {

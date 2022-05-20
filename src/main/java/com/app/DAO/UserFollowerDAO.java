@@ -1,6 +1,7 @@
 package com.app.DAO;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -19,6 +20,20 @@ public class UserFollowerDAO extends DAO {
         long numberOfFFollowers = numberOfFFollowersB.longValue();
         return numberOfFFollowers;
 
+    }
+
+    public List<Users> getListOfUsersFollowers(long userID){
+        Session session = getSession();
+        List<Users> listOfUsersFollowers = new ArrayList<>();
+        SQLQuery query = session.createSQLQuery("select count(*) from user_followers where followerid="+userID);
+        return listOfUsersFollowers;
+    }
+
+    public List<Users> getListOfUsersFollowing(long userID){
+        Session session = getSession();
+        List<Users> listOfUsersFollowing = new ArrayList<>();
+        SQLQuery query = session.createSQLQuery("select count(*) from user_followers where followerid="+userID);
+        return listOfUsersFollowing;
     }
 
     public Long getNumberOfFollowingOfUser(long userID) {

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 10, 2022, 8:05:40 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.app.POJOs.Users" table="USERS">
+        <id name="id" type="java.lang.Long">
+            <column name="userid" />
+            <generator class="native" />
+        </id>
+        <property name="username" type="java.lang.String">
+            <column name="username" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" />
+        </property>
+         <property name="profilepic" type="java.lang.String">
+            <column name="profilepic" />
+        </property>
+        <property name="firstName" type="java.lang.String">
+            <column name="firstName" />
+        </property>
+        <property name="lastName" type="java.lang.String">
+            <column name="lastName" />
+        </property>
+        <property name="dateOfBirth" type="java.util.Date">
+            <column name="dateofbirth" />
+        </property>
+        <property name="bio" type="java.lang.String">
+            <column name="bio" />
+        </property>
+        <property name="isUserAdministrator" type="boolean" access="field">
+            <column name="isuseradministrator" />
+        </property>
+         <property name="isUserVerified" type="boolean" access="field">
+            <column name="isUserVerified" />
+        </property>
+        <property name="isAccountSuspended" type="boolean" access="field">
+            <column name="isaccountsuspended" />
+        </property>
+        <property name="numberOfFollowers" type="java.lang.Long">
+            <column name="numberOfFollowers" />
+        </property>
+        <property name="numberOfFollowing" type="java.lang.Long">
+            <column name="numberOfFollowing" />
+        </property>
+        <property name="numberOfTweets" type="java.lang.Long">
+            <column name="numberOfTweets" />
+        </property>
+    </class>
+</hibernate-mapping>

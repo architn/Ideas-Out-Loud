@@ -23,7 +23,7 @@ public class TweetsDAO extends DAO{
 
     public List<Tweets> getAllTweetsForAUser(long userID){
         Session session = getSession();
-        Query q = session.createQuery("from Tweets where user="+userID);
+        Query q = session.createQuery("from Tweets where user="+userID+" and isTweetOffensive = false");
         List<Tweets> tweets = q.list();
         return tweets;
     }
@@ -33,12 +33,13 @@ public class TweetsDAO extends DAO{
         Session session = getSession();
         String queryForUserRetrieval = "select distinct us.username, us.firstname, us.lastname, us.profilepic,"
                 + " tw.body, tw.dateoftweet,"
-                + " tw.numberOfLikes, tw.tweetid, us.isuserverified\n" +
+                + " tw.numberOfLikes, tw.tweetid, us.isuserverified, tw.hasTweetBeenEdited\n" +
                 "from users us join user_followers uf\n" +
                 "on us.userid = uf.followerid\n" +
                 "inner join tweets tw\n" +
                 "on uf.followerid = tw.userid\n" +
                 "where uf.followerid != "+userID + "\n"+
+                "and tw.isTweetOffensive != true"+ "\n"+
                 "or uf.followerid ="+userID + "\n"+
                 "order by tw.tweetid desc";
         SQLQuery query = session.createSQLQuery(queryForUserRetrieval);
@@ -53,6 +54,8 @@ public class TweetsDAO extends DAO{
             Date dateOfTweet = (Date) followingTweet[5];
             int numberOfLikes = (Integer) followingTweet[6];
             boolean isUserVerified = (Boolean) followingTweet[8];
+            boolean hasTweetBeenEdited = (Boolean) followingTweet[9];
+
 
             tweet.setUsername(username);
             tweet.setUserProfilePic(profilepiclink);
@@ -61,6 +64,7 @@ public class TweetsDAO extends DAO{
             tweet.setDateOfTweets(dateOfTweet);
             tweet.setNumberOfLikes(numberOfLikes);
             tweet.setUserVerified(isUserVerified);
+            tweet.setHasTweetBeenEdited(hasTweetBeenEdited);
             listOfTweetsOfFollowing.add(tweet);
         }
 
@@ -93,6 +97,12 @@ public class TweetsDAO extends DAO{
     public void postEditedTweet(Tweets tweet) {
         begin(); // Marks the beginning of the transaction
         getSession().update(tweet);
+        commit(); // Commit this transaction
+    }
+
+    public void deleteTweet(Tweets tweet){
+        begin(); // Marks the beginning of the transaction
+        getSession().delete(tweet);
         commit(); // Commit this transaction
     }
 }

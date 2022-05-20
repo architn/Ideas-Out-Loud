@@ -108,6 +108,11 @@
 	.offensive{
 		float: right;
 	}
+
+	.nav-link{
+		color: #023178;
+		white-space:nowrap;
+	}
 	
 </style>
 <meta charset="UTF-8">
@@ -119,12 +124,12 @@
 	<c:set value="${sessionScope.user}" var="user" />
 	<div class="row">
 		<div class="col-2">
-		 	<ul>
-		 		<li><a href='/Twitter/home'>Home</a></li>
-				<li><a href='/Twitter/profile'>Profile</a></li>
-				<li><a href='/Twitter/search'>Search for a user</a></li>
-				<li><a href='/Twitter/logout'>Logout</a></li>
-			</ul>
+			<nav class="nav flex-column">
+				<a class="nav-link" href='/Twitter/home'>HOME</a>
+				<a class="nav-link" href='/Twitter/profile'>PROFILE</a>
+				<a class="nav-link" href='/Twitter/search'>SEARCH USERS</a>
+				<a class="nav-link" href='/Twitter/logout'>LOGOUT</a>
+			</nav>
 		</div>
 		<div id="headerSection" class="col-8">
 		
@@ -154,7 +159,9 @@
 					</div>
 			</div>
 			<p id="userFullName"><c:out value="${user.getFirstName()}" />&nbsp;<c:out value="${user.getLastName()}" />
-			  	<img id="verifiedTick1" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+				<c:if test="${user.isUserVerified() == true}">
+			  		<img id="verifiedTick1" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/640px-Twitter_Verified_Badge.svg.png" />
+				 </c:if>
 				<c:set value="${requestScope.doesLoggedInUserFollowTheUser}" var="doesLoggedInUserFollowTheUser" />
 				<c:if test="${doesLoggedInUserFollowTheUser == true}">
 					<span id="followText">FOLLOWS YOU</span>
@@ -196,12 +203,16 @@
 					 </c:if>
 						<span>@<c:out value="${user.getUsername()}" /></span>
 					  </span>
+					  
 					   <p id="tweetBody"><c:out value="${tweet.getTweetBody()}" /></p>
 						<span class="offensive">
 							<a class="btn btn-light" href="/Twitter/offensive?id=${tweet.getTweetID()}">
 							<img id="flagIcon" src="https://www.creativefabrica.com/wp-content/uploads/2019/03/Icon-flag-vector-by-rohmahrohmat1-580x386.jpg" />
 						</a>
 						</span>
+						<c:if test="${tweet.isHasTweetBeenEdited() == true}">
+							 <p>Edited</p>
+					  </c:if>
 					 <br>
 		  			</div>
 		  		</div>

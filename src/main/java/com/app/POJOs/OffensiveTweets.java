@@ -19,6 +19,7 @@ public class OffensiveTweets {
     private Tweets tweetID;
     private String reason;
     private boolean isResolved;
+    private Users user;
 
     public long getOffensiveTweetId() {
         return offensiveTweetId;
@@ -49,6 +50,16 @@ public class OffensiveTweets {
     }
 
     public void setResolved(boolean isResolved) {
-        isResolved = isResolved;
+        this.isResolved = isResolved;
     }
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+    
+    
 }

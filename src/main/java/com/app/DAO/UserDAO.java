@@ -2,6 +2,7 @@ package com.app.DAO;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -56,6 +57,18 @@ public class UserDAO extends DAO {
         begin(); // Marks the beginning of the transaction
         getSession().update(user);
         commit(); // Commit this transaction
+    }
+
+    public List<Users> returnUserSearchResults(String searchParameter){
+        Session session = getSession();
+        Query qry = session.createQuery("From Users as user where user.username  like ?1 or user.firstName like ?2 or user.lastName like ?3");
+        qry.setParameter(1, "%"+searchParameter+"%");
+        qry.setParameter(2, "%"+searchParameter+"%");
+        qry.setParameter(3, "%"+searchParameter+"%");
+
+        List<Users> searchResults =  qry.list();
+        return searchResults;
+
     }
 }
 

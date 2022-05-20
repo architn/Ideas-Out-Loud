@@ -14,8 +14,10 @@ public class Tweets {
     private Users user;
     private String tweetBody;
     private int numberOfLikes;
+    private boolean hasTweetBeenEdited;
     private Date dateOfTweet;
     private boolean isTweetOffensive;
+    private String tweetOffenceReason;
 
 
     public int getNumberOfLikes() {
@@ -66,5 +68,23 @@ public class Tweets {
         this.isTweetOffensive = isTweetOffensive;
     }
 
+	public String getTweetOffenceReason() {
+		return tweetOffenceReason;
+	}
+
+	public void setTweetOffenceReason(String tweetOffenceReason) {
+		this.tweetOffenceReason = tweetOffenceReason;
+	}
+
+	public boolean isHasTweetBeenEdited() {
+		return hasTweetBeenEdited;
+	}
+
+	public void setHasTweetBeenEdited(boolean hasTweetBeenEdited) {
+		this.hasTweetBeenEdited = hasTweetBeenEdited;
+	}
+	
+	
+    
 
 }

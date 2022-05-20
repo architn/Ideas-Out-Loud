@@ -49,7 +49,7 @@ public class FollowController {
         setViewOfUserProfile(userDAO, userFollowerDAO, tweetDAO,IDOfProspectiveFollower, request );
         List<Tweets> tweetsForSomeUser = tweetDAO.getAllTweetsForAUser(IDOfProspectiveFollower);
 
-        return new ModelAndView("profile", "tweets", tweetsForSomeUser);
+        return new ModelAndView("redirect:profile", "tweets", tweetsForSomeUser);
     }
 
     @RequestMapping(value = "/unfollow", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class FollowController {
         userFollowerDAO.unFollowAUser(loggedInUserID, IDOOfProspectiveUnfollow);
         setViewOfUserProfile(userDAO, userFollowerDAO, tweetDAO,IDOOfProspectiveUnfollow, request );
         List<Tweets> tweetsForSomeUser = tweetDAO.getAllTweetsForAUser(IDOOfProspectiveUnfollow);
-        return new ModelAndView("profile", "tweets", tweetsForSomeUser);
+        return new ModelAndView("redirect:profile", "tweets", tweetsForSomeUser);
     }
 
 }

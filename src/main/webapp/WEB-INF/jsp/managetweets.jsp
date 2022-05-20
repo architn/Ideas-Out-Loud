@@ -15,6 +15,11 @@
         body{
             background-image: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8")
         }
+
+        .nav-link{
+            color: #023178;
+            white-space:nowrap;
+        }
     </style>
 </head>
 <body>
@@ -23,13 +28,32 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <ul>
-                <li><a href="/Twitter/manageTweets">Manage Tweets</a></li>
-                <li><a href="/Twitter/manageUsers">Manage Users</a></li>
-            </ul>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/Twitter/manageTweets">MANAGE TWEETS</a>
+                <a class="nav-link" href="/Twitter/manageUsers">MANAGE USERS</a>
+                <a class="nav-link" href='/Twitter/logout'>LOGOUT</a>
+            </nav>
         </div>
         <div class="col-7">
             <h1>Welcome to Administrator View</h1>
+            <table class="table table-striped">
+            	<th scope="col">Sr No</th>
+            	<th scope="col">Tweet</th>
+            	<th scope="col">Username</th>
+    	         <th scope="col">Details</th>
+            	<th scope="col">Delete</th>
+            	<c:forEach items="${requestScope.tweets}" var="tw">
+            	<tr>
+            	      <th scope="row">1</th>
+            		<td><c:out value="${tw.getTweetBody()}" /></td>
+            		<td><c:out value="${tw.getUser().getUsername()}" /></td>
+            		<td><a class="btn btn-info" href="/Twitter/tweetDetails?id=${tw.getTweetID()}">Details</a></td>
+            		<td><a class="btn btn-danger" href="/Twitter/adminDelete?id=${tw.getTweetID()}">Delete</a></td>
+            	</tr>
+            </c:forEach>
+            </table>
+            
+            
         </div>
     </div>
 </div>
